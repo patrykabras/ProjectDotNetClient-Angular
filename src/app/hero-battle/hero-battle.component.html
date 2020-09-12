@@ -1,0 +1,97 @@
+<div class="row text-center" *ngIf="isBattleLogActive">
+    <div class="container">
+      <div class="row justify-content-md-center m-2">
+        <select class="form-control" id="hero1" name="hero1" (change)="changeRound($event.target.value)">
+          <option value="{{battleLog.id}}" *ngFor="let battleLog of serviceBattleLog.battleLogList">#{{battleLog.id}}
+            {{battleLog.name}}
+          </option>
+        </select>
+      </div>
+      <div class="row justify-content-md-center m-2">
+        <h1>{{singleBattleLog.description}}</h1>
+      </div>
+      <div class="row" *ngFor="let hero of singleBattleLog.heroStats">
+        <div class="col">
+          <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">ID: #{{hero.heroId}}</div>
+            <div class="card-body">
+              <h5 class="card-title">Name: {{hero.name}}</h5>
+              <p class="card-text">Race: {{hero.race}}</p>
+              <p class="card-text">HP: {{hero.hp}}</p>
+              <p class="card-text">MANA: {{hero.mana}}</p>
+              <p class="card-text">DMG: {{hero.dmg}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">race</th>
+                <th scope="col">size</th>
+                <th scope="col">hp</th>
+                <th scope="col">mana</th>
+                <th scope="col">dmg</th>
+                <th scope="col">range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let unit of hero.units">
+                <th scope="row">{{unit.id}}</th>
+                <td>{{unit.name}}</td>
+                <td>{{unit.race}}</td>
+                <td>{{unit.size}}</td>
+                <td>{{unit.hp}}</td>
+                <td>{{unit.mana}}</td>
+                <td>{{unit.dmg}}</td>
+                <td>{{unit.range}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Current : {{singleBattleLog.name}}</h1>
+        </div>
+        <div class="col">
+          <button (click)="previousRound()" class="btn btn-warning mx-4"><i class="fas fa-backward"></i> Previous
+          </button>
+          <button (click)="nextRound()" class="btn btn-success mx-4">Next <i class="fas fa-forward"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+<form #f="ngForm" (ngSumbit)="startBattle(f)" *ngIf="heroLisLoaded" class="my-4">
+  <div class="row">
+    <div class="col-2">
+      <h2>Choose hero1:</h2>
+    </div>
+    <div class="col-10">
+      <select class="form-control" id="hero1" name="hero1" ngModel required #hero1="ngModel">
+        <option value="{{hero.heroId}}" *ngFor="let hero of serviceHeroDetail.heroList">#{{hero.heroId}} {{hero.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <h2>Choose hero2:</h2>
+    </div>
+    <div class="col-10">
+      <select class="form-control" id="hero2" name="hero2" ngModel required #hero2="ngModel">
+        <option value="{{hero.heroId}}" *ngFor="let hero of serviceHeroDetail.heroList">#{{hero.heroId}} {{hero.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <button (click)="startBattle(f)" class="btn btn-primary btn-block">Start fight</button>
+</form>
+

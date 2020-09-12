@@ -1,0 +1,25 @@
+<div class="text-center">
+  <p class="lead" *ngIf="loading">Loading...</p>
+</div>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">UserID</th>
+      <th scope="col">Username</th>
+      <th scope="col">Password</th>
+      <th scope="col">Email</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of service.list">
+      <th scope="row" (click)="populateForm(user)">{{user.userID}}</th>
+      <td (click)="populateForm(user)">{{user.username}}</td>
+      <td (click)="populateForm(user)">{{user.password}}</td>
+      <td (click)="populateForm(user)">{{user.email}}</td>
+      <td (click)="onDelete(user.userID)">
+        <i class="far fa-trash-alt fa-lg text-danger" ></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

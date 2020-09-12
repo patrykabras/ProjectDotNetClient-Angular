@@ -1,0 +1,122 @@
+<div class="text-center">
+  <p class="lead" *ngIf="loading">Loading...</p>
+</div>
+
+<div>
+  <h2>Choose hero:</h2>
+  <select class="form-control" (change)="onChange($event.target.value)">
+    <option value="{{hero.heroId}}" *ngFor="let hero of service.heroList">#{{hero.heroId}} {{hero.name}}</option>
+  </select>
+</div>
+
+<div *ngIf="isHeroSelected">
+
+  <div class="row justify-content-md-center">
+    <div class="col-sm">
+      <h2>Hero:</h2>
+      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header">ID: #{{singleHero.heroId}}</div>
+        <div class="card-body">
+          <h5 class="card-title">Name: {{singleHero.name}}</h5>
+          <p class="card-text">Race: {{singleHero.race}}</p>
+          <p class="card-text">HP: {{singleHero.hp}}</p>
+          <p class="card-text">MANA: {{singleHero.mana}}</p>
+          <p class="card-text">DMG: {{singleHero.dmg}}</p>
+          <button (click)="deleteHero()" type="button" class="btn btn-outline-danger btn-block">Delete hero <i
+              class="far fa-trash-alt fa-lg "></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm" *ngIf="isUnitTypeSelected">
+      <h2>Add unit:</h2>
+      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header">
+          <select class="form-control" (change)="onChangeAddUnit($event.target.value)">
+            <option value="{{unitType.id}}" *ngFor="let unitType of service2.unitTypeList">#{{unitType.id}}
+              {{unitType.name}}
+            </option>
+          </select>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Name: {{singleUnitType.name}}</h5>
+          <p class="card-text">Race: {{singleUnitType.race}}</p>
+          <p class="card-text">HP: {{singleUnitType.hp}} | MANA: {{singleUnitType.mana}}</p>
+          <p class="card-text">DMG: {{singleUnitType.dmg}} | Range: {{singleUnitType.dmg}}</p>
+          <form #unitType="ngForm" (ngSumbit)="addUnitToHero(unitType)">
+            <p class="card-text">Size: <input type="number" value={{singleUnitType.size}}
+                class="form-control form-control-sm" id="sizeAddUnit" name="sizeAddUnit" ngModel
+                required #sizeAddUnit="ngModel"></p>
+            <button (click)="addUnitToHero(unitType)" type="button" class="btn btn-outline-success btn-block">Add unit <i class="fas fa-plus"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2>Units: </h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">size</th>
+        <th scope="col">name</th>
+        <th scope="col">race</th>
+        <th scope="col">hp</th>
+        <th scope="col">mana</th>
+        <th scope="col">dmg</th>
+        <th scope="col">range</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let unit of singleHero.units">
+        <th scope="row">{{unit.id}}</th>
+        <td style="max-width:10px"><input type="number" (change)="sizeChange($event.target.value, unit.id)"
+            value={{unit.size}} class="form-control form-control-sm" id="sizeInput"></td>
+        <td>{{unit.name}}</td>
+        <td>{{unit.race}}</td>
+        <td>{{unit.hp}}</td>
+        <td>{{unit.mana}}</td>
+        <td>{{unit.dmg}}</td>
+        <td>{{unit.range}}</td>
+        <td (click)="deleteUnitFromHero(unit.id)">
+          <i class="far fa-trash-alt fa-lg text-danger"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<form class="m-2 p-2 border border-primary rounded" #f="ngForm" (ngSumbit)="addNewHero(f)" novalidate>
+  <div class="form-group">
+    <div class="row">
+      <div class="col"><label for="newHeroName">Hero Name</label>
+        <input type="text" class="form-control" placeholder="Enter hero name" id="newHeroName" name="newHeroName"
+          ngModel required #newHeroName="ngModel"></div>
+      <div class="col"><label for="newHeroRace">Hero Race</label>
+        <select class="form-control" id="newHeroRace" name="newHeroRace" ngModel required #newHeroRace="ngModel">
+          <option value="Human">Human</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col"><label for="newHeroHp">Hero Hp</label>
+        <input type="number" class="form-control" placeholder="Enter hero hp" id="newHeroHp" name="newHeroHp" ngModel
+          required #newHeroHp="ngModel"></div>
+      <div class="col"><label for="newHeroMana">Hero Mana</label>
+        <input type="number" class="form-control" placeholder="Enter hero mana" id="newHeroMana" name="newHeroMana"
+          ngModel required #newHeroMana="ngModel"></div>
+      <div class="col"><label for="newHeroDmg">Hero Dmg</label>
+        <input type="number" class="form-control" placeholder="Enter hero dmg" id="newHeroDmg" name="newHeroDmg" ngModel
+          required #newHeroDmg="ngModel">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+
+  </div>
+  <button (click)="addNewHero(f)" class="btn btn-primary btn-block">Create new Hero</button>
+</form>
